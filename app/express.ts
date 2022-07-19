@@ -9,6 +9,4 @@ expressServer.listen(config.expressPort, () => {
     console.log(`Server is running on port ${config.expressPort}`);
 });
 
-expressServer.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
+expressServer.use(express.static('public'))
