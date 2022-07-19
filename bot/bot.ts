@@ -25,20 +25,22 @@ client.on('message', async message => {
     } else {
         const attachments = message.attachments.array();
         if (attachments.length === 0) {
-            await message.react(`😠`);
-            await message.reply('Please attach an image (or image url)!');
-            return;
+            await message.reply('Clearing... (*to display img send link or attachment*)');
+
+            // clear board
+            return wsBroadcast({
+                type: 'clear',
+            });
         }
         url = attachments[0].proxyURL;
     }
 
-    if (url) {
-        wsBroadcast({
-            type: 'image',
-            url: url
-        });
-        await message.react(`👍`);
-    }
-});
+
+    wsBroadcast({
+        type: 'image',
+        url: url
+    });
+    await message.react(`👍`);
+})
 
 client.on('error', console.error)

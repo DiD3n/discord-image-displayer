@@ -1,5 +1,5 @@
 
 export interface WebsocketMessage {
-    type: 'image' | 'video'
+    type: 'image' | 'video' | 'clear'
     url?: string
 }

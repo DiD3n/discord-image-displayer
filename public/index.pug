@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+head
+    title Discord's content
+    meta(charset="utf-8")
+    link(rel="stylesheet", href="style.css")
+    script
+        | const AUTO_CLEAR = #{autoClear}
+        | const AUTO_CLEAR_TIMING = #{autoClearTiming}
+        | const WS_PORT = #{wsPort}
+        | const WS_URI = '#{wsURI}'
+    script(defer, src="ws.js")
+body
