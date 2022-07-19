@@ -1,0 +1,10 @@
+{
+  "bot": {
+    "token": "",
+    "channel": ""
+  },
+  "app": {
+    "expressPort": 8080,
+    "wsPort": 8081
+  }
+}
