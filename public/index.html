@@ -21,38 +21,57 @@
         }
     </style>
     <script>
-        const ws = new WebSocket('ws://localhost:8081');
-
+        // DOM's img handle (is exists)
         let img;
+
+        // timeout handler
         let timeout;
 
-        ws.onmessage = function(msg) {
-            /** @type {WebsocketMessage} */
-            msg = JSON.parse(msg.data);
+        const connect = () => {
+            console.log('Connecting...');
+            const ws = new WebSocket('ws://localhost:8081');
 
-            const clearImg = () => {
-                if (img) {
-                    img.remove();
-                    img = null;
-                }
+            ws.onopen = () => {
+                console.log('Connected');
             };
 
-            if (msg.type === 'image') {
-                clearImg();
+            ws.onclose = (event) => {
+                console.log('Connection close (reconnect in 1s)',event.reason);
+                setTimeout(function() {
+                    connect();
+                }, 1000);
+            };
 
-                img = document.createElement('img');
-                img.src = msg.url;
+            ws.onmessage = function(msg) {
+                /** @type {WebsocketMessage} */
+                msg = JSON.parse(msg.data);
 
-                document.body.appendChild(img);
+                const clearImg = () => {
+                    if (img) {
+                        img.remove();
+                        img = null;
+                    }
+                };
 
-                if (timeout)
-                    clearTimeout(timeout);
-
-                timeout = setTimeout(function() {
+                if (msg.type === 'image') {
                     clearImg();
-                }, 30000);
-            }
-        };
+
+                    img = document.createElement('img');
+                    img.src = msg.url;
+
+                    document.body.appendChild(img);
+
+                    if (timeout)
+                        clearTimeout(timeout);
+
+                    timeout = setTimeout(function() {
+                        clearImg();
+                    }, 30000);
+                }
+            };
+        }
+        connect();
+
     </script>
 </head>
 <body>
