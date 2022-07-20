@@ -20,8 +20,13 @@ client.on('message', async message => {
 
     let url: string;
 
-    if (message.content.match(/^https?:\/\/[^ ]+\.(png|jpe?g|gif|webp)[^ ]*$/)) {
+    if (message.content.match(/^https?:\/\/[^ ]+ ?$/)) {
         url = message.content;
+
+        // tenor and giphy suppport
+        if (message.content.match(/(tenor)/))
+            url += '.gif';
+
     } else {
         const attachments = message.attachments.array();
         if (attachments.length === 0) {
